@@ -11,12 +11,15 @@
       controller: 'GridstackController',
       require: '^gridstack',
       scope: {
-        'gridstackItem': '='
+        gridstackItem: '=',
+        onItemAdded: '&'
       },
       link: function (scope, element, attrs, controller) {
 
         attrs.$observe('gridstackItem', function(val) {
           var widget = controller.addItem(element);
+          var item = element.data('_gridstack_node');
+          scope.onItemAdded({item: item});
         });
 
         element.bind('$destroy', function() {
