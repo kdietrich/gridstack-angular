@@ -6,6 +6,9 @@
     "Kevin Dietrich <hallo@kevin-dietrich.com>"
   ],
   "description": "Angular Gridstack.js directive",
+  "main": [
+    "dist/gridstack-angular.min.js"
+  ],
   "dependencies": {
     "angular": ">=1.3",
     "gridstack": "~0.2.3"
