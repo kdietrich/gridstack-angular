@@ -34,6 +34,10 @@ Demo is available [here](http://kdietrich.github.io/gridstack-angular/demo/).
 
 ##Changes
 
+####v.0.2.0 (2015-10-27)
+- Bugfix: Events
+- onItemAdded event
+
 ####v.0.1.0 (2015-10-27)
 - First version.
 
