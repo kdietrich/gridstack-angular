@@ -11,34 +11,34 @@
       controller: 'GridstackController',
       scope: {
         onChange: '&',
-        dragStart: '&',
-        dragStop: '&',
-        resizeStart: '&',
-        resizeStop: '&',
+        onDragStart: '&',
+        onDragStop: '&',
+        onResizeStart: '&',
+        onResizeStop: '&',
         options: '='
       },
       link: function (scope, element, attrs, controller, ngModel) {
 
         controller.init(element, scope.options);
 
-        element.on('change', function (event, items) {
-          scope.onChange(event, items);
+        element.on('change', function (e, items) {
+          scope.onChange({event: e, items: items});
         });
 
-        element.on('dragstart', function(event, ui) {
-          scope.dragStart(event, ui);
+        element.on('dragstart', function(e, ui) {
+          scope.onDragStart({event: e, ui: ui});
         });
 
-        element.on('dragstop', function(event, ui) {
-          scope.dragStop(event, ui);
+        element.on('dragstop', function(e, ui) {
+          scope.onDragStop({event: e, ui: ui});
         });
 
-        element.on('resizestart', function(event, ui) {
-          scope.resizeStart(event, ui);
+        element.on('resizestart', function(e, ui) {
+          scope.onResizeStart({event: e, ui: ui});
         });
 
-        element.on('resizestop', function(event, ui) {
-          scope.resizeStop(event, ui);
+        element.on('resizestop', function(e, ui) {
+          scope.onResizeStop({event: e, ui: ui});
         });
 
       }
