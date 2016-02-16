@@ -4,7 +4,7 @@
   var app = angular.module('gridstack-angular');
 
   /** @ngInject */
-  app.directive('gridstack', function() {
+  app.directive('gridstack', function($timeout) {
 
     return {
       restrict: "A",
@@ -23,7 +23,9 @@
 
         element.on('change', function (e, items) {
           scope.onChange({event: e, items: items});
-          scope.$apply();
+          $timeout(function() {
+            scope.$apply();
+          });
         });
 
         element.on('dragstart', function(e, ui) {

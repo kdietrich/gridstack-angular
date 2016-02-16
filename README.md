@@ -31,7 +31,7 @@ Demo is available [here](http://kdietrich.github.io/gridstack-angular/demo/).
 ##Requirements
 
 - Angular.js (>=1.3)
-- gridstack.js (~0.2.3)
+- gridstack.js (~0.2.4)
 
 ##Changes
 
