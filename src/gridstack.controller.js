@@ -24,9 +24,7 @@
 
     this.addItem = function(element) {
       if(gridstack) {
-        //Workaround until make_widget PR is merged in gridstack.js
-        gridstack._prepare_element(element);
-        gridstack._update_container_height();
+        gridstack.make_widget(element);
         return element;
       }
       return null;

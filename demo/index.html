@@ -35,9 +35,9 @@
         <br>
         <div class="row">
             <div class="col-md-12">
-                <div gridstack class="grid-stack grid1" options="options">
-                    <div gridstack-item ng-repeat="w in widgets" class="grid-stack-item" data-gs-x="{{w.x}}" data-gs-y="{{w.y}}"
-                         data-gs-width="{{w.width}}" data-gs-height="{{w.height}}" data-gs-auto-position="1">
+                <div gridstack class="grid-stack grid1" options="options" on-change="onChange(event,items)" on-drag-start="onDragStart(event,ui)" on-drag-stop="onDragStop(event,ui)" on-resize-start="onResizeStart(event,ui)" on-resize-stop="onResizeStop(event,ui)">
+                    <div gridstack-item ng-repeat="w in widgets" class="grid-stack-item" gs-item-x="w.x" gs-item-y="w.y"
+                         gs-item-width="w.width" gs-item-height="w.height" gs-item-autopos="1" on-item-added="onItemAdded(item)" on-item-removed="onItemRemoved(item)">
                             <div class="grid-stack-item-content">
                                 <a class="btn btn-primary" ng-click="removeWidget(w)" href="#">remove</a>
                             </div>
@@ -49,7 +49,7 @@
 
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-    <script src="bower_components/lodash/lodash.min.js"></script>
+    <script src="bower_components/lodash/dist/lodash.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/gridstack/dist/gridstack.js"></script>
     <script src="../src/gridstack.controller.js"></script>
@@ -58,7 +58,7 @@
 
     <script type="text/javascript">
         var app = angular.module('GridStack', ['gridstack-angular']).
-          controller('DemoCtrl', function($scope) {
+          controller('DemoCtrl', function($scope, $log) {
 
             $scope.widgets = [{ x:0, y:0, width:1, height:1 }, { x:0, y:0, width:3, height:1 }];
 
@@ -75,6 +75,34 @@
             $scope.removeWidget = function(w) {
                 var index = $scope.widgets.indexOf(w);
                 $scope.widgets.splice(index, 1);
+            };
+
+            $scope.onChange = function(event, items) {
+                $log.log("onChange event: "+event+" items:"+items);
+            };
+
+            $scope.onDragStart = function(event, ui) {
+                $log.log("onDragStart event: "+event+" ui:"+ui);
+            };
+
+            $scope.onDragStop = function(event, ui) {
+                $log.log("onDragStop event: "+event+" ui:"+ui);
+            };
+
+            $scope.onResizeStart = function(event, ui) {
+                $log.log("onResizeStart event: "+event+" ui:"+ui);
+            };
+
+            $scope.onResizeStop = function(event, ui) {
+                $log.log("onResizeStop event: "+event+" ui:"+ui);
+            };
+
+            $scope.onItemAdded = function(item) {
+                $log.log("onItemAdded item: "+item);
+            };
+
+            $scope.onItemRemoved = function(item) {
+                $log.log("onItemRemoved item: "+item);
             };
 
         });
