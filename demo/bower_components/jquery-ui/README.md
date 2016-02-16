@@ -1,12 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [[jQuery UI](http://jqueryui.com/) - Interactions and Widgets for the web](#jquery-uihttpjqueryuicom---interactions-and-widgets-for-the-web)
-  - [This repo only holds precompiled files.](#this-repo-only-holds-precompiled-files)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 [jQuery UI](http://jqueryui.com/) - Interactions and Widgets for the web
 ================================
 

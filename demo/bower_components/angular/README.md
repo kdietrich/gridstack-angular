@@ -1,16 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [packaged angular](#packaged-angular)
-  - [Install](#install)
-    - [npm](#npm)
-    - [bower](#bower)
-  - [Documentation](#documentation)
-  - [License](#license)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # packaged angular
 
 This repo is for distribution on `npm` and `bower`. The source for this module is in the
