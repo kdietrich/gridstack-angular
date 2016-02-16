@@ -12,7 +12,8 @@
       require: '^gridstack',
       scope: {
         gridstackItem: '=',
-        onItemAdded: '&'
+        onItemAdded: '&',
+        onItemRemoved: '&'
       },
       link: function (scope, element, attrs, controller) {
 
@@ -23,6 +24,8 @@
         });
 
         element.bind('$destroy', function() {
+          var item = element.data('_gridstack_node');
+          scope.onItemRemoved({item: item});
           controller.removeItem(element);
         });
 
