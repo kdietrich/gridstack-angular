@@ -23,6 +23,7 @@
 
         element.on('change', function (e, items) {
           scope.onChange({event: e, items: items});
+          scope.$apply();
         });
 
         element.on('dragstart', function(e, ui) {
