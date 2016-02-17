@@ -63,9 +63,9 @@
         controller.init(element, scope.options);
 
         element.on('change', function (e, items) {
-          scope.onChange({event: e, items: items});
           $timeout(function() {
             scope.$apply();
+            scope.onChange({event: e, items: items});
           });
         });
 
@@ -74,7 +74,10 @@
         });
 
         element.on('dragstop', function(e, ui) {
-          scope.onDragStop({event: e, ui: ui});
+          $timeout(function() {
+            scope.$apply();
+            scope.onDragStop({event: e, ui: ui});
+          });
         });
 
         element.on('resizestart', function(e, ui) {
@@ -82,7 +85,10 @@
         });
 
         element.on('resizestop', function(e, ui) {
-          scope.onResizeStop({event: e, ui: ui});
+          $timeout(function() {
+            scope.$apply();
+            scope.onResizeStop({event: e, ui: ui});
+          });
         });
 
       }
@@ -96,7 +102,7 @@
   var app = angular.module('gridstack-angular');
 
   /** @ngInject */
-  app.directive('gridstackItem', function() {
+  app.directive('gridstackItem', ['$timeout', function($timeout) {
 
     return {
       restrict: "A",
@@ -121,7 +127,9 @@
         $(element).attr('data-gs-auto-position', scope.gsItemAutopos);
         var widget = controller.addItem(element);
         var item = element.data('_gridstack_node');
-        scope.onItemAdded({item: item});
+        $timeout(function() {
+          scope.onItemAdded({item: item});
+        });
 
         scope.$watch(function(){ return $(element).attr('data-gs-x'); }, function(val) {
           scope.gsItemX = val;
@@ -149,5 +157,5 @@
 
     };
 
-  });
+  }]);
 })();
