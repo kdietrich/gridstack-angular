@@ -35,9 +35,15 @@ Demo is available [here](http://kdietrich.github.io/gridstack-angular/demo/).
 
 ##Changes
 
+####v0.3.0 (2016-02-17)
+- Breaking Changes: `data-gs-xyz` attributes changed to `gs-item-xyz`. See demo.
+- Two way data binding
+- `onItemRemoved` event
+- gridstack.js 0.2.4 Support
+
 ####v.0.2.0 (2015-10-27)
 - Bugfix: Events
-- onItemAdded event
+- `onItemAdded` event
 
 ####v.0.1.0 (2015-10-27)
 - First version.
