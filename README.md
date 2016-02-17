@@ -36,6 +36,8 @@ Demo is available [here](http://kdietrich.github.io/gridstack-angular/demo/).
 
 ##Changes
 
+####v0.4.0-dev
+
 ####v0.3.0 (2016-02-17)
 - Breaking Changes: `data-gs-xyz` attributes changed to `gs-item-xyz`. See demo.
 - Two way data binding
