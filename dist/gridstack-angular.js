@@ -45,7 +45,7 @@
   var app = angular.module('gridstack-angular');
 
   /** @ngInject */
-  app.directive('gridstack', function($timeout) {
+  app.directive('gridstack', ['$timeout', function($timeout) {
 
     return {
       restrict: "A",
@@ -88,7 +88,7 @@
       }
     };
 
-  });
+  }]);
 })();
 (function() {
   'use strict';
