@@ -33,12 +33,13 @@ Demo is available [here](http://kdietrich.github.io/gridstack-angular/demo/).
 ##Requirements
 
 - Angular.js (>=1.3)
-- gridstack.js (~0.2.4)
+- gridstack.js (~0.2.5)
 
 ##Changes
 
 ####v0.4.0-dev
 - Fixed timing of events
+- gridstack.js 0.2.5 support
 
 ####v0.3.0 (2016-02-17)
 - Breaking Changes: `data-gs-xyz` attributes changed to `gs-item-xyz`. See demo.
