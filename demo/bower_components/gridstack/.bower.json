@@ -1,6 +1,6 @@
 {
   "name": "gridstack",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "homepage": "https://github.com/troolee/gridstack.js",
   "authors": [
     "Pavel Reznikov <pashka.reznikov@gmail.com>"
@@ -33,13 +33,13 @@
     "test",
     "tests"
   ],
-  "_release": "0.2.4",
+  "_release": "0.2.5",
   "_resolution": {
     "type": "version",
-    "tag": "v0.2.4",
-    "commit": "1edda7f24c0e7ffbde982a4924cb42eb3505e36a"
+    "tag": "v0.2.5",
+    "commit": "8a419fbda7ca3f2e573673d0d2cc7d71cb2150a4"
   },
   "_source": "git://github.com/troolee/gridstack.js.git",
-  "_target": "~0.2.4",
+  "_target": "~0.2.5",
   "_originalSource": "gridstack"
 }

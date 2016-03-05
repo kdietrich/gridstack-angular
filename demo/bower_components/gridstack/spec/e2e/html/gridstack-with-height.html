@@ -8,16 +8,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Float grid demo</title>
+    <title>gridstack.js tests</title>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../dist/gridstack.css"/>
+    <link rel="stylesheet" href="../../../dist/gridstack.css"/>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.0/jquery-ui.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
-    <script src="../dist/gridstack.js"></script>
+    <script src="../../../dist/gridstack.js"></script>
 
     <style type="text/css">
         .grid-stack {
@@ -33,53 +33,38 @@
 </head>
 <body>
     <div class="container-fluid">
-        <h1>Float grid demo</h1>
-
-        <div>
-            <a class="btn btn-default" id="add-new-widget" href="#">Add Widget</a>
-        </div>
+        <h1>gridstack.js tests</h1>
 
         <br/>
 
-        <div class="grid-stack">
+        <div class="grid-stack" id="grid">
         </div>
     </div>
 
 
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             var options = {
-                float: true
+                height: 5
             };
             $('.grid-stack').gridstack(options);
 
-            new function () {
-                this.items = [
+            new function() {
+                var items = [
                     {x: 0, y: 0, width: 2, height: 2},
-                    {x: 3, y: 1, width: 1, height: 2},
-                    {x: 4, y: 1, width: 1, height: 1},
-                    {x: 2, y: 3, width: 3, height: 1},
-//                    {x: 1, y: 4, width: 1, height: 1},
-//                    {x: 1, y: 3, width: 1, height: 1},
-//                    {x: 2, y: 4, width: 1, height: 1},
                     {x: 2, y: 5, width: 1, height: 1}
                 ];
 
                 this.grid = $('.grid-stack').data('gridstack');
-
-                this.addNewWidget = function () {
-                    var node = this.items.pop() || {
-                                x: 12 * Math.random(),
-                                y: 5 * Math.random(),
-                                width: 1 + 3 * Math.random(),
-                                height: 1 + 3 * Math.random()
-                            };
-                    this.grid.addWidget($('<div><div class="grid-stack-item-content" /><div/>'),
+                this.grid.removeAll();
+                items = GridStackUI.Utils.sort(items);
+                var id = 0;
+                _.each(items, function(node) {
+                    var w = $('<div><div class="grid-stack-item-content" /><div/>');
+                    w.attr('id', 'item-' + (++id));
+                    this.grid.addWidget(w,
                         node.x, node.y, node.width, node.height);
-                    return false;
-                }.bind(this);
-
-                $('#add-new-widget').click(this.addNewWidget);
+                }, this);
             };
         });
     </script>
