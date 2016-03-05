@@ -4,7 +4,7 @@
   var app = angular.module('gridstack-angular');
 
   /** @ngInject */
-  app.directive('gridstackItem', function() {
+  app.directive('gridstackItem', ['$timeout', function($timeout) {
 
     return {
       restrict: "A",
@@ -29,7 +29,9 @@
         $(element).attr('data-gs-auto-position', scope.gsItemAutopos);
         var widget = controller.addItem(element);
         var item = element.data('_gridstack_node');
-        scope.onItemAdded({item: item});
+        $timeout(function() {
+          scope.onItemAdded({item: item});
+        });
 
         scope.$watch(function(){ return $(element).attr('data-gs-x'); }, function(val) {
           scope.gsItemX = val;
@@ -57,5 +59,5 @@
 
     };
 
-  });
+  }]);
 })();

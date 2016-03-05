@@ -4,7 +4,7 @@
   var app = angular.module('gridstack-angular');
 
   /** @ngInject */
-  app.directive('gridstack', function($timeout) {
+  app.directive('gridstack', ['$timeout', function($timeout) {
 
     return {
       restrict: "A",
@@ -22,9 +22,9 @@
         controller.init(element, scope.options);
 
         element.on('change', function (e, items) {
-          scope.onChange({event: e, items: items});
           $timeout(function() {
             scope.$apply();
+            scope.onChange({event: e, items: items});
           });
         });
 
@@ -33,7 +33,10 @@
         });
 
         element.on('dragstop', function(e, ui) {
-          scope.onDragStop({event: e, ui: ui});
+          $timeout(function() {
+            scope.$apply();
+            scope.onDragStop({event: e, ui: ui});
+          });
         });
 
         element.on('resizestart', function(e, ui) {
@@ -41,11 +44,14 @@
         });
 
         element.on('resizestop', function(e, ui) {
-          scope.onResizeStop({event: e, ui: ui});
+          $timeout(function() {
+            scope.$apply();
+            scope.onResizeStop({event: e, ui: ui});
+          });
         });
 
       }
     };
 
-  });
+  }]);
 })();

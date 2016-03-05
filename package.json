@@ -1,6 +1,6 @@
 {
   "name": "gridstack-angular",
-  "version": "0.2.0",
+  "version": "0.4.0-dev",
   "description": "Angular Gridstack.js directive",
   "repository": {
     "type": "git",
