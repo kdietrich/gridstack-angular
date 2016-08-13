@@ -115,6 +115,7 @@
         gridstackItem: '=',
         onItemAdded: '&',
         onItemRemoved: '&',
+        gsItemId: '=',
         gsItemX: '=',
         gsItemY: '=',
         gsItemWidth: '=',
@@ -122,7 +123,7 @@
         gsItemAutopos: '='
       },
       link: function (scope, element, attrs, controller) {
-
+        $(element).attr('data-gs-id', scope.gsItemId);
         $(element).attr('data-gs-x', scope.gsItemX);
         $(element).attr('data-gs-y', scope.gsItemY);
         $(element).attr('data-gs-width', scope.gsItemWidth);
@@ -134,6 +135,9 @@
           scope.onItemAdded({item: item});
         });
 
+        scope.$watch(function () { return $(element).attr('data-gs-id'); }, function (val) {
+            scope.gsItemId = val;
+        });
         scope.$watch(function(){ return $(element).attr('data-gs-x'); }, function(val) {
           scope.gsItemX = val;
         });
