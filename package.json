@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/kdietrich/gridstack-angular/issues"
   },
-  "homepage": "https://github.com/kdietrich/gridstack-angular#readme"
+  "homepage": "https://github.com/kdietrich/gridstack-angular#readme",
+  "dependencies": {
+    "gulp-jscs": "^4.0.0"
+  }
 }

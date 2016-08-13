@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var clean = require('gulp-clean');
 var jshint = require('gulp-jshint');
+var jscs = require('gulp-jscs');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var header = require('gulp-header');
@@ -37,6 +38,8 @@ gulp.task('scripts', ['clean'], function() {
  gulp.src(paths.scripts, {cwd: bases.app})
  .pipe(jshint())
  .pipe(jshint.reporter('default'))
+ .pipe(jscs())
+ .pipe(jscs.reporter())
  .pipe(uglify())
  .pipe(concat('gridstack-angular.min.js'))
  .pipe(header(banner, { pkg : pkg } ))
