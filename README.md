@@ -39,6 +39,8 @@ Demo is available [here](http://kdietrich.github.io/gridstack-angular/demo/).
 ##Changes
 
 ####v0.5.0-dev
+- `gridstack-handler` attribute
+- `data-gs-id` attribute
 
 ####v0.4.0 (2016-04-08)
 - Fixed timing of events
