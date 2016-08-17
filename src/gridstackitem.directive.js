@@ -13,7 +13,7 @@ app.directive('gridstackItem', ['$timeout', function($timeout) {
       gridstackItem: '=',
       onItemAdded: '&',
       onItemRemoved: '&',
-      gsItemId: '=',
+      gsItemId: '=?',
       gsItemX: '=',
       gsItemY: '=',
       gsItemWidth: '=',
@@ -21,7 +21,9 @@ app.directive('gridstackItem', ['$timeout', function($timeout) {
       gsItemAutopos: '='
     },
     link: function(scope, element, attrs, controller) {
-      $(element).attr('data-gs-id', scope.gsItemId);
+      if (scope.gsItemId) {
+        $(element).attr('data-gs-id', scope.gsItemId);
+      }
       $(element).attr('data-gs-x', scope.gsItemX);
       $(element).attr('data-gs-y', scope.gsItemY);
       $(element).attr('data-gs-width', scope.gsItemWidth);
@@ -38,19 +40,19 @@ app.directive('gridstackItem', ['$timeout', function($timeout) {
       });
 
       scope.$watch(function() { return $(element).attr('data-gs-x'); }, function(val) {
-        scope.gsItemX = val;
+        scope.gsItemX = Number(val);
       });
 
       scope.$watch(function() { return $(element).attr('data-gs-y'); }, function(val) {
-        scope.gsItemY = val;
+        scope.gsItemY = Number(val);
       });
 
       scope.$watch(function() { return $(element).attr('data-gs-width'); }, function(val) {
-        scope.gsItemWidth = val;
+        scope.gsItemWidth = Number(val);
       });
 
       scope.$watch(function() { return $(element).attr('data-gs-height'); }, function(val) {
-        scope.gsItemHeight = val;
+        scope.gsItemHeight = Number(val);
       });
 
       element.bind('$destroy', function() {

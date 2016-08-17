@@ -14,7 +14,7 @@ app.directive('gridstack', ['$timeout', function($timeout) {
       onDragStop: '&',
       onResizeStart: '&',
       onResizeStop: '&',
-      gridstackHandler: '=',
+      gridstackHandler: '=?',
       options: '='
     },
     link: function(scope, element, attrs, controller, ngModel) {
