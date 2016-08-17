@@ -1,4 +1,4 @@
-//     Backbone.js 1.2.3
+//     Backbone.js 1.3.3
 
 //     (c) 2010-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Backbone may be freely distributed under the MIT license.
@@ -44,7 +44,7 @@
   var slice = Array.prototype.slice;
 
   // Current version of the library. Keep in sync with `package.json`.
-  Backbone.VERSION = '1.2.3';
+  Backbone.VERSION = '1.3.3';
 
   // For Backbone's purposes, jQuery, Zepto, Ender, or My Library (kidding) owns
   // the `$` variable.
@@ -242,7 +242,6 @@
 
       listening.obj.off(name, callback, this);
     }
-    if (_.isEmpty(listeningTo)) this._listeningTo = void 0;
 
     return this;
   };
@@ -299,7 +298,7 @@
         delete events[name];
       }
     }
-    if (_.size(events)) return events;
+    return events;
   };
 
   // Bind an event to only be triggered a single time. After the first time
@@ -309,7 +308,8 @@
   Events.once = function(name, callback, context) {
     // Map the event into a `{event: once}` object.
     var events = eventsApi(onceMap, {}, name, callback, _.bind(this.off, this));
-    return this.on(events, void 0, context);
+    if (typeof name === 'string' && context == null) callback = void 0;
+    return this.on(events, callback, context);
   };
 
   // Inversion-of-control versions of `once`.
@@ -394,11 +394,13 @@
   var Model = Backbone.Model = function(attributes, options) {
     var attrs = attributes || {};
     options || (options = {});
+    this.preinitialize.apply(this, arguments);
     this.cid = _.uniqueId(this.cidPrefix);
     this.attributes = {};
     if (options.collection) this.collection = options.collection;
     if (options.parse) attrs = this.parse(attrs, options) || {};
-    attrs = _.defaults({}, attrs, _.result(this, 'defaults'));
+    var defaults = _.result(this, 'defaults');
+    attrs = _.defaults(_.extend({}, defaults, attrs), defaults);
     this.set(attrs, options);
     this.changed = {};
     this.initialize.apply(this, arguments);
@@ -420,6 +422,10 @@
     // The prefix is used to create the client id which is used to identify models locally.
     // You may want to override this if you're experiencing name clashes with model ids.
     cidPrefix: 'c',
+
+    // preinitialize is an empty function by default. You can override it with a function
+    // or object.  preinitialize will run before any instantiation logic is run in the Model.
+    preinitialize: function(){},
 
     // Initialize is an empty function by default. Override it with your own
     // initialization logic.
@@ -561,12 +567,14 @@
       if (!diff) return this.hasChanged() ? _.clone(this.changed) : false;
       var old = this._changing ? this._previousAttributes : this.attributes;
       var changed = {};
+      var hasChanged;
       for (var attr in diff) {
         var val = diff[attr];
         if (_.isEqual(old[attr], val)) continue;
         changed[attr] = val;
+        hasChanged = true;
       }
-      return _.size(changed) ? changed : false;
+      return hasChanged ? changed : false;
     },
 
     // Get the previous value of an attribute, recorded at the time the last
@@ -714,7 +722,7 @@
 
     // Check if the model is currently in a valid state.
     isValid: function(options) {
-      return this._validate({}, _.defaults({validate: true}, options));
+      return this._validate({}, _.extend({}, options, {validate: true}));
     },
 
     // Run validation against the next complete set of model attributes,
@@ -753,6 +761,7 @@
   // its models in sort order, as they're added and removed.
   var Collection = Backbone.Collection = function(models, options) {
     options || (options = {});
+    this.preinitialize.apply(this, arguments);
     if (options.model) this.model = options.model;
     if (options.comparator !== void 0) this.comparator = options.comparator;
     this._reset();
@@ -781,6 +790,11 @@
     // The default model for a collection is just a **Backbone.Model**.
     // This should be overridden in most cases.
     model: Model,
+
+
+    // preinitialize is an empty function by default. You can override it with a function
+    // or object.  preinitialize will run before any instantiation logic is run in the Collection.
+    preinitialize: function(){},
 
     // Initialize is an empty function by default. Override it with your own
     // initialization logic.
@@ -824,7 +838,7 @@
     set: function(models, options) {
       if (models == null) return;
 
-      options = _.defaults({}, options, setOptions);
+      options = _.extend({}, setOptions, options);
       if (options.parse && !this._isModel(models)) {
         models = this.parse(models, options) || [];
       }
@@ -834,6 +848,7 @@
 
       var at = options.at;
       if (at != null) at = +at;
+      if (at > this.length) at = this.length;
       if (at < 0) at += this.length + 1;
 
       var set = [];
@@ -978,11 +993,13 @@
       return slice.apply(this.models, arguments);
     },
 
-    // Get a model from the set by id.
+    // Get a model from the set by id, cid, model object with id or cid
+    // properties, or an attributes object that is transformed through modelId.
     get: function(obj) {
       if (obj == null) return void 0;
-      var id = this.modelId(this._isModel(obj) ? obj.attributes : obj);
-      return this._byId[obj] || this._byId[id] || this._byId[obj.cid];
+      return this._byId[obj] ||
+        this._byId[this.modelId(obj.attributes || obj)] ||
+        obj.cid && this._byId[obj.cid];
     },
 
     // Returns `true` if the model is in the collection.
@@ -1215,6 +1232,7 @@
   // if an existing element is not provided...
   var View = Backbone.View = function(options) {
     this.cid = _.uniqueId('view');
+    this.preinitialize.apply(this, arguments);
     _.extend(this, _.pick(options, viewOptions));
     this._ensureElement();
     this.initialize.apply(this, arguments);
@@ -1237,6 +1255,10 @@
     $: function(selector) {
       return this.$el.find(selector);
     },
+
+    // preinitialize is an empty function by default. You can override it with a function
+    // or object.  preinitialize will run before any instantiation logic is run in the View
+    preinitialize: function(){},
 
     // Initialize is an empty function by default. Override it with your own
     // initialization logic.
@@ -1463,6 +1485,7 @@
   // matched. Creating a new one sets its `routes` hash, if not set statically.
   var Router = Backbone.Router = function(options) {
     options || (options = {});
+    this.preinitialize.apply(this, arguments);
     if (options.routes) this.routes = options.routes;
     this._bindRoutes();
     this.initialize.apply(this, arguments);
@@ -1477,6 +1500,10 @@
 
   // Set up all inheritable **Backbone.Router** properties and methods.
   _.extend(Router.prototype, Events, {
+
+    // preinitialize is an empty function by default. You can override it with a function
+    // or object.  preinitialize will run before any instantiation logic is run in the Router.
+    preinitialize: function(){},
 
     // Initialize is an empty function by default. Override it with your own
     // initialization logic.
@@ -1808,11 +1835,14 @@
       }
       var url = rootPath + fragment;
 
-      // Strip the hash and decode for matching.
-      fragment = this.decodeFragment(fragment.replace(pathStripper, ''));
+      // Strip the fragment of the query and hash for matching.
+      fragment = fragment.replace(pathStripper, '');
 
-      if (this.fragment === fragment) return;
-      this.fragment = fragment;
+      // Decode for matching.
+      var decodedFragment = this.decodeFragment(fragment);
+
+      if (this.fragment === decodedFragment) return;
+      this.fragment = decodedFragment;
 
       // If pushState is available, we use it to set the fragment as a real URL.
       if (this._usePushState) {
@@ -1913,5 +1943,4 @@
   };
 
   return Backbone;
-
 });

@@ -1,4 +1,4 @@
-(function() {
+(function(QUnit) {
 
   var ProxyModel = Backbone.Model.extend();
   var Klass = Backbone.Collection.extend({
@@ -34,6 +34,12 @@
     assert.equal(model.collection, collection);
   });
 
+  QUnit.test('Object.prototype properties are overridden by attributes', function(assert) {
+    assert.expect(1);
+    var model = new Backbone.Model({hasOwnProperty: true});
+    assert.equal(model.get('hasOwnProperty'), true);
+  });
+
   QUnit.test('initialize with attributes and options', function(assert) {
     assert.expect(1);
     var Model = Backbone.Model.extend({
@@ -57,17 +63,34 @@
     assert.equal(model.get('value'), 2);
   });
 
-  QUnit.test('initialize with defaults', function(assert) {
+
+  QUnit.test('preinitialize', function(assert) {
     assert.expect(2);
     var Model = Backbone.Model.extend({
-      defaults: {
-        firstName: 'Unknown',
-        lastName: 'Unknown'
+
+      preinitialize: function() {
+        this.one = 1;
       }
     });
-    var model = new Model({'firstName': 'John'});
-    assert.equal(model.get('firstName'), 'John');
-    assert.equal(model.get('lastName'), 'Unknown');
+    var model = new Model({}, {collection: collection});
+    assert.equal(model.one, 1);
+    assert.equal(model.collection, collection);
+  });
+
+  QUnit.test('preinitialize occurs before the model is set up', function(assert) {
+    assert.expect(6);
+    var Model = Backbone.Model.extend({
+
+      preinitialize: function() {
+        assert.equal(this.collection, undefined);
+        assert.equal(this.cid, undefined);
+        assert.equal(this.id, undefined);
+      }
+    });
+    var model = new Model({id: 'foo'}, {collection: collection});
+    assert.equal(model.collection, collection);
+    assert.equal(model.id, 'foo');
+    assert.notEqual(model.cid, undefined);
   });
 
   QUnit.test('parse can return null', function(assert) {
@@ -428,7 +451,7 @@
   });
 
   QUnit.test('defaults', function(assert) {
-    assert.expect(4);
+    assert.expect(9);
     var Defaulted = Backbone.Model.extend({
       defaults: {
         one: 1,
@@ -438,6 +461,9 @@
     var model = new Defaulted({two: undefined});
     assert.equal(model.get('one'), 1);
     assert.equal(model.get('two'), 2);
+    model = new Defaulted({two: 3});
+    assert.equal(model.get('one'), 1);
+    assert.equal(model.get('two'), 3);
     Defaulted = Backbone.Model.extend({
       defaults: function() {
         return {
@@ -449,6 +475,15 @@
     model = new Defaulted({two: undefined});
     assert.equal(model.get('one'), 3);
     assert.equal(model.get('two'), 4);
+    Defaulted = Backbone.Model.extend({
+      defaults: {hasOwnProperty: true}
+    });
+    model = new Defaulted();
+    assert.equal(model.get('hasOwnProperty'), true);
+    model = new Defaulted({hasOwnProperty: undefined});
+    assert.equal(model.get('hasOwnProperty'), true);
+    model = new Defaulted({hasOwnProperty: false});
+    assert.equal(model.get('hasOwnProperty'), false);
   });
 
   QUnit.test('change, hasChanged, changedAttributes, previous, previousAttributes', function(assert) {
@@ -989,8 +1024,8 @@
 
   QUnit.test('`previous` for falsey keys', function(assert) {
     assert.expect(2);
-    var model = new Backbone.Model({0: true, '': true});
-    model.set({0: false, '': false}, {silent: true});
+    var model = new Backbone.Model({'0': true, '': true});
+    model.set({'0': false, '': false}, {silent: true});
     assert.equal(model.previous(0), true);
     assert.equal(model.previous(''), true);
   });
@@ -1410,4 +1445,4 @@
     assert.equal(model.id, 3);
   });
 
-})();
+})(QUnit);

@@ -29,6 +29,9 @@
       QUnit.config.hidepassed = true;
       QUnit.config.excused = {
         'Arrays': {
+          'chunk': [
+            'defaults to empty array (chunk size 0)'
+          ],
           'difference': [
             'can perform an OO-style difference'
           ],
@@ -52,9 +55,6 @@
             'can flatten nested arrays',
             'works on an arguments object',
             'can handle very deep arrays'
-          ],
-          'head': [
-            'is an alias for first'
           ],
           'indexOf': [
             "sorted indexOf doesn't uses binary search",
@@ -82,9 +82,6 @@
           'object': [
             'an array of pairs zipped together into an object',
             'an object converted to pairs and back to an object'
-          ],
-          'range': [
-            'range with two arguments a &amp; b, b&lt;a generates an empty array'
           ],
           'rest': [
             'returns the whole array when index is 0',
@@ -126,7 +123,8 @@
           'Iterating objects with sketchy length properties': true,
           'Resistant to collection length and properties changing while iterating': true,
           'countBy': [
-            'true'
+            '{}',
+            '[{}]'
           ],
           'each': [
             'context object property accessed'
@@ -138,24 +136,17 @@
           ],
           'filter': [
             'given context',
-            '[{"a":1,"b":2},{"a":1,"b":3},{"a":1,"b":4}]',
-            '[{"a":1,"b":2},{"a":2,"b":2}]',
-            'Empty object accepts all items',
             'OO-filter'
           ],
           'find': [
-            '{"a":1,"b":4}',
-            'undefined when not found',
-            'undefined when searching empty list',
-            'works on objects',
-            'undefined',
             'called with context'
           ],
           'findWhere': [
             'checks properties given function'
           ],
           'groupBy': [
-            'true'
+            '{}',
+            '[{}]'
           ],
           'includes': [
             "doesn't delegate to binary search"
@@ -195,8 +186,7 @@
           'partition': [
             'can reference the array index',
             'Died on test #8',
-            'partition takes a context argument',
-            'function(a){[code]}'
+            'partition takes a context argument'
           ],
           'pluck': [
             '[1]'
@@ -220,15 +210,15 @@
             'checks properties given function'
           ],
           'Can use various collection methods on NodeLists': [
-            '<span id="id2"></span>',
-            '<span id="id1"></span>'
+            '<span id="id2"></span>'
           ]
         },
         'Functions': {
           'debounce asap': true,
           'debounce asap cancel': true,
-          'debounce after system time is set backwards': true,
           'debounce asap recursively': true,
+          'debounce after system time is set backwards': true,
+          'debounce re-entrant': true,
           'throttle repeatedly with results': true,
           'more throttle does not trigger leading call when leading is set to false': true,
           'throttle does not trigger trailing call when trailing is set to false': true,
@@ -242,17 +232,17 @@
           'bindAll': [
             'throws an error for bindAll with no functions named'
           ],
+          'debounce': [
+            'incr was debounced'
+          ],
+          'iteratee': [
+            '"bbiz"',
+            '"foo"',
+            '1'
+          ],
           'memoize': [
             '{"bar":"BAR","foo":"FOO"}',
             'Died on test #8'
-          ],
-          'partial':[
-            'can partially apply with placeholders',
-            'accepts more arguments than the number of placeholders',
-            'accepts fewer arguments than the number of placeholders',
-            'unfilled placeholders are undefined',
-            'keeps prototype',
-            'allows the placeholder to be swapped out'
           ]
         },
         'Objects': {
@@ -261,10 +251,6 @@
             'is not fooled by sparse arrays; see issue #95',
             'is not fooled by sparse arrays with additional properties',
             '[]'
-          ],
-          'defaults': [
-            'defaults skips nulls',
-            'defaults skips undefined'
           ],
           'extend': [
             'extending null results in null',
@@ -282,14 +268,15 @@
             'Commutative equality is implemented for `0` and `-0`',
             '`new Number(0)` and `-0` are not equal',
             'Commutative equality is implemented for `new Number(0)` and `-0`',
+            'Invalid dates are not equal',
             'false'
           ],
           'isFinite': [
             'Numeric strings are numbers',
             'Number instances can be finite'
           ],
-          'isMatch': [
-            'doesnt falsey match constructor on undefined/null'
+          'isSet': [
+            'Died on test #9'
           ],
           'findKey': [
             'called with context'
@@ -303,10 +290,6 @@
             'called with context',
             'mapValue identity'
           ],
-          'matcher': [
-            'null matches null',
-            'treats primitives as empty'
-          ],
           'omit': [
             'can accept a predicate',
             'function is given context'
@@ -317,7 +300,6 @@
           ]
         },
         'Utility': {
-          'noConflict (node vm)': true,
           'now': [
             'Produces the correct time in milliseconds'
           ],
@@ -381,8 +363,6 @@
 
       // Only excuse in Sauce Labs.
       if (!ui.isSauceLabs) {
-        delete QUnit.config.excused.Functions['throttle repeatedly with results'];
-        delete QUnit.config.excused.Functions['more throttle does not trigger leading call when leading is set to false'];
         delete QUnit.config.excused.Functions['throttle does not trigger trailing call when trailing is set to false'];
         delete QUnit.config.excused.Utility.now;
       }

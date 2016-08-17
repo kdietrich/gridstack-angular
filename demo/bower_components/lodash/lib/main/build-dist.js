@@ -1,11 +1,10 @@
 'use strict';
 
-var _ = require('lodash'),
-    async = require('async'),
-    fs = require('fs-extra'),
+var async = require('async'),
     path = require('path');
 
-var minify = require('../common/minify.js');
+var file = require('../common/file'),
+    util = require('../common/util');
 
 var basePath = path.join(__dirname, '..', '..'),
     distPath = path.join(basePath, 'dist'),
@@ -16,17 +15,17 @@ var baseLodash = path.join(basePath, filename),
 
 /*----------------------------------------------------------------------------*/
 
-function onComplete(error) {
-  if (error) {
-    throw error;
-  }
-}
-
+/**
+ * Creates browser builds of Lodash at the `target` path.
+ *
+ * @private
+ * @param {string} target The output directory path.
+ */
 function build() {
   async.series([
-    _.partial(fs.copy, baseLodash, distLodash),
-    _.partial(minify, distLodash)
-  ], onComplete);
+    file.copy(baseLodash, distLodash),
+    file.min(distLodash)
+  ], util.pitch);
 }
 
 build();

@@ -20,6 +20,7 @@
 
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype;
+  var SymbolProto = typeof Symbol !== 'undefined' ? Symbol.prototype : null;
 
   // Create quick reference variables for speed access to core prototypes.
   var push = ArrayProto.push,
@@ -83,18 +84,23 @@
     };
   };
 
+  var builtinIteratee;
+
   // An internal function to generate callbacks that can be applied to each
   // element in a collection, returning the desired result — either `identity`,
   // an arbitrary callback, a property matcher, or a property accessor.
   var cb = function(value, context, argCount) {
+    if (_.iteratee !== builtinIteratee) return _.iteratee(value, context);
     if (value == null) return _.identity;
     if (_.isFunction(value)) return optimizeCb(value, context, argCount);
     if (_.isObject(value)) return _.matcher(value);
     return _.property(value);
   };
 
-  // An external wrapper for the internal callback generator.
-  _.iteratee = function(value, context) {
+  // External wrapper for our callback generator. Users may customize
+  // `_.iteratee` if they want additional predicate/iteratee shorthand styles.
+  // This abstraction hides the internal-only argCount argument.
+  _.iteratee = builtinIteratee = function(value, context) {
     return cb(value, context, Infinity);
   };
 
@@ -218,12 +224,8 @@
 
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, predicate, context) {
-    var key;
-    if (isArrayLike(obj)) {
-      key = _.findIndex(obj, predicate, context);
-    } else {
-      key = _.findKey(obj, predicate, context);
-    }
+    var keyFinder = isArrayLike(obj) ? _.findIndex : _.findKey;
+    var key = keyFinder(obj, predicate, context);
     if (key !== void 0 && key !== -1) return obj[key];
   };
 
@@ -465,7 +467,7 @@
   // values in the array. Aliased as `head` and `take`. The **guard** check
   // allows it to work with `_.map`.
   _.first = _.head = _.take = function(array, n, guard) {
-    if (array == null) return void 0;
+    if (array == null || array.length < 1) return void 0;
     if (n == null || guard) return array[0];
     return _.initial(array, array.length - n);
   };
@@ -480,7 +482,7 @@
   // Get the last element of an array. Passing **n** will return the last N
   // values in the array.
   _.last = function(array, n, guard) {
-    if (array == null) return void 0;
+    if (array == null || array.length < 1) return void 0;
     if (n == null || guard) return array[array.length - 1];
     return _.rest(array, Math.max(0, array.length - n));
   };
@@ -494,7 +496,7 @@
 
   // Trim out all falsy values from an array.
   _.compact = function(array) {
-    return _.filter(array, _.identity);
+    return _.filter(array, Boolean);
   };
 
   // Internal implementation of a recursive `flatten` function.
@@ -859,12 +861,12 @@
     };
 
     var debounced = restArgs(function(args) {
-      var callNow = immediate && !timeout;
       if (timeout) clearTimeout(timeout);
-      if (callNow) {
+      if (immediate) {
+        var callNow = !timeout;
         timeout = setTimeout(later, wait);
-        result = func.apply(this, args);
-      } else if (!immediate) {
+        if (callNow) result = func.apply(this, args);
+      } else {
         timeout = _.delay(later, wait, this, args);
       }
 
@@ -1097,7 +1099,7 @@
     return result;
   });
 
-   // Return a copy of the object without the blacklisted properties.
+  // Return a copy of the object without the blacklisted properties.
   _.omit = restArgs(function(obj, keys) {
     var iteratee = keys[0], context;
     if (_.isFunction(iteratee)) {
@@ -1195,6 +1197,8 @@
         // millisecond representations. Note that invalid dates with millisecond representations
         // of `NaN` are not equivalent.
         return +a === +b;
+      case '[object Symbol]':
+        return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
     }
 
     var areArrays = className === '[object Array]';
@@ -1285,8 +1289,8 @@
     return type === 'function' || type === 'object' && !!obj;
   };
 
-  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError.
-  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error', 'Symbol'], function(name) {
+  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError, isMap, isWeakMap, isSet, isWeakSet.
+  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error', 'Symbol', 'Map', 'WeakMap', 'Set', 'WeakSet'], function(name) {
     _['is' + name] = function(obj) {
       return toString.call(obj) === '[object ' + name + ']';
     };
@@ -1404,7 +1408,7 @@
     return new Date().getTime();
   };
 
-   // List of HTML entities for escaping.
+  // List of HTML entities for escaping.
   var escapeMap = {
     '&': '&amp;',
     '<': '&lt;',
@@ -1569,6 +1573,7 @@
         return chainResult(this, func.apply(_, args));
       };
     });
+    return _;
   };
 
   // Add all of the Underscore functions to the wrapper object.
@@ -1603,7 +1608,7 @@
   _.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
 
   _.prototype.toString = function() {
-    return '' + this._wrapped;
+    return String(this._wrapped);
   };
 
   // AMD registration happens at the end for compatibility with AMD loaders
