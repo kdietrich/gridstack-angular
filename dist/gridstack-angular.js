@@ -112,7 +112,7 @@ app.directive('gridstackItem', ['$timeout', function($timeout) {
       gridstackItem: '=',
       onItemAdded: '&',
       onItemRemoved: '&',
-      gsItemId: '=',
+      gsItemId: '=?',
       gsItemX: '=',
       gsItemY: '=',
       gsItemWidth: '=',
@@ -120,7 +120,9 @@ app.directive('gridstackItem', ['$timeout', function($timeout) {
       gsItemAutopos: '='
     },
     link: function(scope, element, attrs, controller) {
-      $(element).attr('data-gs-id', scope.gsItemId);
+      if (scope.gsItemId) {
+        $(element).attr('data-gs-id', scope.gsItemId);
+      }
       $(element).attr('data-gs-x', scope.gsItemX);
       $(element).attr('data-gs-y', scope.gsItemY);
       $(element).attr('data-gs-width', scope.gsItemWidth);
@@ -133,7 +135,7 @@ app.directive('gridstackItem', ['$timeout', function($timeout) {
       });
 
       scope.$watch(function() { return $(element).attr('data-gs-id'); }, function(val) {
-        scope.gsItemId = Number(val);
+        scope.gsItemId = val;
       });
 
       scope.$watch(function() { return $(element).attr('data-gs-x'); }, function(val) {

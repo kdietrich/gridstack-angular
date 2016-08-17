@@ -21,7 +21,9 @@ app.directive('gridstackItem', ['$timeout', function($timeout) {
       gsItemAutopos: '='
     },
     link: function(scope, element, attrs, controller) {
-      if (scope.gsItemId) $(element).attr('data-gs-id', scope.gsItemId);
+      if (scope.gsItemId) {
+        $(element).attr('data-gs-id', scope.gsItemId);
+      }
       $(element).attr('data-gs-x', scope.gsItemX);
       $(element).attr('data-gs-y', scope.gsItemY);
       $(element).attr('data-gs-width', scope.gsItemWidth);
