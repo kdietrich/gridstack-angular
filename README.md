@@ -10,7 +10,7 @@ gridstack-angular is an Angular.js directive for the widget layout plugin gridst
 - [Demo](#demo)
 - [Requirements](#requirements)
 - [Changes](#changes)
-    - [v0.5.0-dev](#v050-dev)
+    - [v0.5.0 (2016-08-17)](#v050-2016-08-17)
     - [v0.4.0 (2016-04-08)](#v040-2016-04-08)
     - [v0.3.0 (2016-02-17)](#v030-2016-02-17)
     - [v.0.2.0 (2015-10-27)](#v020-2015-10-27)
@@ -38,9 +38,10 @@ Demo is available [here](http://kdietrich.github.io/gridstack-angular/demo/).
 
 ##Changes
 
-####v0.5.0-dev
+####v0.5.0 (2016-08-17)
 - `gridstack-handler` attribute (thanks to @huytd)
 - `data-gs-id` attribute (thanks to @jvelezc)
+- misc fixes (thanks to @epelc)
 - gridstack.js 0.2.6 support
 
 ####v0.4.0 (2016-04-08)
