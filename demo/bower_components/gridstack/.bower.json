@@ -1,6 +1,6 @@
 {
   "name": "gridstack",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "homepage": "https://github.com/troolee/gridstack.js",
   "authors": [
     "Pavel Reznikov <pashka.reznikov@gmail.com>"
@@ -14,9 +14,9 @@
     "amd"
   ],
   "dependencies": {
-    "lodash": ">= 3.5.0",
-    "jquery": ">= 1.11.0",
-    "jquery-ui": ">= 1.11.0"
+    "lodash": ">= 4.14.2",
+    "jquery": ">= 3.1.0",
+    "jquery-ui": ">= 1.12.0"
   },
   "keywords": [
     "gridstack",
@@ -33,13 +33,13 @@
     "test",
     "tests"
   ],
-  "_release": "0.2.5",
+  "_release": "0.2.6",
   "_resolution": {
     "type": "version",
-    "tag": "v0.2.5",
-    "commit": "8a419fbda7ca3f2e573673d0d2cc7d71cb2150a4"
+    "tag": "v0.2.6",
+    "commit": "28ed6fa374592eb56590050cece409471fbfc41e"
   },
-  "_source": "git://github.com/troolee/gridstack.js.git",
-  "_target": "~0.2.5",
+  "_source": "https://github.com/troolee/gridstack.js.git",
+  "_target": "~0.2.6",
   "_originalSource": "gridstack"
 }

@@ -1,6 +1,6 @@
 {
   "name": "gridstack-angular",
-  "version": "0.4.0-dev",
+  "version": "0.6.0-dev",
   "description": "Angular Gridstack.js directive",
   "repository": {
     "type": "git",
@@ -8,9 +8,10 @@
   },
   "devDependencies": {
     "gulp": "~3.9.0",
-    "gulp-header": "~1.7.1",
     "gulp-clean": "~0.3.1",
     "gulp-concat": "~2.6.0",
+    "gulp-header": "~1.7.1",
+    "gulp-jscs": "^4.0.0",
     "gulp-jshint": "~1.11.2",
     "gulp-uglify": "~1.4.2"
   },
@@ -19,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/kdietrich/gridstack-angular/issues"
   },
-  "homepage": "https://github.com/kdietrich/gridstack-angular#readme"
+  "homepage": "https://github.com/kdietrich/gridstack-angular#readme",
+  "dependencies": {
+    "gulp-jscs": "^4.0.0"
+  }
 }

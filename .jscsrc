@@ -1,0 +1,20 @@
+{
+    "preset": "node-style-guide",
+    "validateIndentation": 2,
+    "maximumLineLength": 120,
+    "jsDoc": {
+        "checkAnnotations": {
+            "preset": "jsdoc3",
+            "extra": {
+                "preserve": true
+            }
+        }
+    },
+    "requireCamelCaseOrUpperCaseIdentifiers": true,
+    "validateLineBreaks": false,
+    "requireTrailingComma": false,
+    "requireSpaceAfterKeywords": false,
+    "disallowTrailingWhitespace": true,
+    "requireCapitalizedComments": false,
+    "excludeFiles": ["dist/*.js", "demo/*"]
+}
