@@ -38,19 +38,19 @@ app.directive('gridstackItem', ['$timeout', function($timeout) {
       });
 
       scope.$watch(function() { return $(element).attr('data-gs-x'); }, function(val) {
-        scope.gsItemX = val;
+        scope.gsItemX = Number(val);
       });
 
       scope.$watch(function() { return $(element).attr('data-gs-y'); }, function(val) {
-        scope.gsItemY = val;
+        scope.gsItemY = Number(val);
       });
 
       scope.$watch(function() { return $(element).attr('data-gs-width'); }, function(val) {
-        scope.gsItemWidth = val;
+        scope.gsItemWidth = Number(val);
       });
 
       scope.$watch(function() { return $(element).attr('data-gs-height'); }, function(val) {
-        scope.gsItemHeight = val;
+        scope.gsItemHeight = Number(val);
       });
 
       element.bind('$destroy', function() {
