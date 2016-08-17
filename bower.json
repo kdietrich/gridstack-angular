@@ -11,7 +11,7 @@
   ],
   "dependencies": {
     "angular": ">=1.3",
-    "gridstack": "~0.2.5"
+    "gridstack": "~0.2.6"
   },
   "license": "MIT",
   "ignore": [
