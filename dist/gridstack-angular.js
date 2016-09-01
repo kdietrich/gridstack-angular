@@ -118,10 +118,10 @@ app.directive('gridstackItem', ['$timeout', function($timeout) {
       gsItemWidth: '=',
       gsItemHeight: '=',
       gsItemAutopos: '=',
-      gsItemMinHeight: '=',
-      gsItemMaxHeight: '=',
-      gsItemMinWidth: '=',
-      gsItemMaxWidth: '='
+      gsItemMinHeight: '=?',
+      gsItemMaxHeight: '=?',
+      gsItemMinWidth: '=?',
+      gsItemMaxWidth: '=?'
     },
     link: function(scope, element, attrs, controller) {
       if (scope.gsItemId) {
