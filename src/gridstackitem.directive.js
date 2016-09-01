@@ -63,22 +63,6 @@ app.directive('gridstackItem', ['$timeout', function($timeout) {
         scope.gsItemHeight = Number(val);
       });
 
-      scope.$watch(function() { return $(element).attr('data-gs-min-width'); }, function(val) {
-        scope.gsItemMinWidth = Number(val);
-      });
-
-      scope.$watch(function() { return $(element).attr('data-gs-min-height'); }, function(val) {
-        scope.gsItemMinHeight = Number(val);
-      });
-
-      scope.$watch(function() { return $(element).attr('data-gs-max-width'); }, function(val) {
-        scope.gsItemMaxWidth = Number(val);
-      });
-
-      scope.$watch(function() { return $(element).attr('data-gs-max-height'); }, function(val) {
-        scope.gsItemMaxHeight = Number(val);
-      });
-
       element.bind('$destroy', function() {
         var item = element.data('_gridstack_node');
         scope.onItemRemoved({item: item});
