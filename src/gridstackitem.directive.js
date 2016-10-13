@@ -18,7 +18,11 @@ app.directive('gridstackItem', ['$timeout', function($timeout) {
       gsItemY: '=',
       gsItemWidth: '=',
       gsItemHeight: '=',
-      gsItemAutopos: '='
+      gsItemAutopos: '=',
+      gsItemMinHeight: '=?',
+      gsItemMaxHeight: '=?',
+      gsItemMinWidth: '=?',
+      gsItemMaxWidth: '=?'
     },
     link: function(scope, element, attrs, controller) {
       if (scope.gsItemId) {
@@ -28,6 +32,10 @@ app.directive('gridstackItem', ['$timeout', function($timeout) {
       $(element).attr('data-gs-y', scope.gsItemY);
       $(element).attr('data-gs-width', scope.gsItemWidth);
       $(element).attr('data-gs-height', scope.gsItemHeight);
+      $(element).attr('data-gs-min-width', scope.gsItemMinWidth);
+      $(element).attr('data-gs-min-height', scope.gsItemMinHeight);
+      $(element).attr('data-gs-max-width', scope.gsItemMaxWidth);
+      $(element).attr('data-gs-max-height', scope.gsItemMaxHeight);
       $(element).attr('data-gs-auto-position', scope.gsItemAutopos);
       var widget = controller.addItem(element);
       var item = element.data('_gridstack_node');
