@@ -31,6 +31,7 @@
         <p>{{widgets}}</p>
         <div>
             <a class="btn btn-primary" ng-click="addWidget()" href="#">Add Widget</a>
+            <a class="btn btn-primary" ng-click="moveWidget()" href="#">Move Widget</a>
         </div>
         <br>
         <div class="row">
@@ -70,6 +71,12 @@
             $scope.addWidget = function() {
                 var newWidget = { x:0, y:0, width:1, height:1 };
                 $scope.widgets.push(newWidget);
+            };
+
+            $scope.moveWidget = function() {
+                $scope.widgets[0].x = 1;
+                $scope.widgets[0].width = 2;
+                $scope.widgets[0].height = 2;
             };
 
             $scope.removeWidget = function(w) {
