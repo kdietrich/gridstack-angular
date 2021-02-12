@@ -3,7 +3,7 @@
   "version": "0.6.0-dev",
   "homepage": "https://github.com/kdietrich/gridstack-angular",
   "authors": [
-    "Kevin Dietrich <hallo@kevin-dietrich.com>"
+    "Kevin Dietrich"
   ],
   "description": "Angular Gridstack.js directive",
   "main": [
